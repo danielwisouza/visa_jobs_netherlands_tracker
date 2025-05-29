@@ -34,22 +34,65 @@ This project supports international tech professionals by:
 ```
 visa-jobs-nl-tracker/
 ├── notebooks/
-│   ├── 01_scrape_jobs_api.py
-│   ├── 02_parse_visa_list.py
-│   ├── 03_process_jobs_data.py
-│   └── 04_export_powerbi.py
+│   ├── bronze/
+│   │   ├── scrape_visa_companies.py            # Lista empresas patrocinadoras de visto (bronze)
+│   │   ├── scrape_remoteok_jobs.py              # Busca vagas Remote OK (bronze)
+│   │   ├── scrape_landingjobs_jobs.py           # Busca vagas Landing.jobs (bronze)
+│   │   └── scrape_google_jobs.py                 # Busca vagas via Google Search (LinkedIn, Glassdoor, Indeed, etc)
+│   │
+│   ├── silver/
+│   │   ├── clean_visa_companies.py              # Limpeza de lista de empresas de visto
+│   │   ├── clean_remoteok_jobs.py                # Limpeza e padronização vagas Remote OK
+│   │   ├── clean_landingjobs_jobs.py             # Limpeza vagas Landing.jobs
+│   │   ├── clean_google_jobs.py                   # Limpeza vagas extraídas por Google Search
+│   │   └── match_jobs_with_visa.py               # Cruzar vagas com empresas que patrocinam visto
+│   │
+│   ├── gold/
+│   │   └── export_to_powerbi.py                  # Exporta dados finais para visualização
+│   │
+│   └── utils/
+│       ├── mount_storage.py
+│       ├── spark_helpers.py
+│       └── filters.py
+│
+├── utils/
+│   ├── api_remoteok.py                           # API client Remote OK
+│   ├── api_landingjobs.py                        # API client Landing.jobs
+│   ├── google_search_jobs.py                      # Scripts para scraping/google search (manual ou semi automatizado)
+│   └── visa_list_parser.py
+│
+├── config/
+│   ├── mount_config.py
+│   ├── constants.py
+│   └── secrets_template.json
+│
 ├── data/
-│   ├── bronze/               # Raw job listings (original data from sources)
-│   ├── silver/               # Processed data (cleaned, filtered, normalized)
-│   └── gold/                 # Final, aggregated data ready for analysis
+│   ├── bronze/
+│   │   ├── company_skilled_migrants/
+│   │   ├── jobs_remoteok_raw/
+│   │   ├── jobs_landingjobs_raw/
+│   │   └── jobs_google_search_raw/
+│   │
+│   ├── silver/
+│   │   ├── visa_companies_clean/
+│   │   ├── jobs_remoteok_clean/
+│   │   ├── jobs_landingjobs_clean/
+│   │   └── jobs_google_search_clean/
+│   │
+│   └── gold/
+│       └── jobs_with_visa_support/
+│
 ├── dashboards/
 │   └── jobs_nl_powerbi.pbix
-├── utils/
-│   ├── api_remoteok.py
-│   ├── api_landingjobs.py
-│   └── visa_list_parser.py
+│
+├── tests/
+│   ├── test_api_remoteok.py
+│   ├── test_visa_cleaning.py
+│   └── test_google_search_jobs.py
+│
 ├── requirements.txt
-└── README.md
+├── README.md
+└── .gitignore
 ```
 ## 📌 Data Sources
 
